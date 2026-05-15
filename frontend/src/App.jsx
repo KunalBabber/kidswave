@@ -43,7 +43,7 @@ import RevenuePage from './component/RevenuePage'
 import AdminPage from './pages/AdminPage'
 import ParentDashboard from './pages/ParentDashboard'
 
-export const serverUrl = "import.meta.env.VITE_SERVER_URL"
+export const serverUrl = import.meta.env.VITE_SERVER_URL
 
 const ProtectedRoute = ({ userData, userLoading, children }) => {
   if (userLoading) {
