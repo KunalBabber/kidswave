@@ -16,22 +16,24 @@ const app = express()
 app.use(cookieParser())
 app.use(express.json())
 app.use(cors({
-   origin:"http://localhost:5173",
-   credentials:true
+    origin: process.env.FRONTEND_URL,
+    credentials: true
 }))
 
 
 
-app.use("/api/auth",authRouter)
-app.use("/api/user",userRouter)
-app.use("/api/content",contentRouter)
-app.use("/api/safety",safetyRouter)
+app.use("/api/auth", authRouter)
+app.use("/api/user", userRouter)
+app.use("/api/content", contentRouter)
+app.use("/api/safety", safetyRouter)
 
-app.get("/" , (req,res)=>{
+app.get("/", (req, res) => {
     res.send("Hello from Server")
 })
 
-app.listen(port , ()=>{
+app.listen(port, () => {
     console.log("Server Started")
     connectDb()
 })
+
+export default app;
