@@ -15,7 +15,8 @@ export const createPost = async (req, res) => {
 
     let imageUrl = null;
     if (file) {
-      imageUrl = await uploadOnCloudinary(file.path);
+      const uploadResult = await uploadOnCloudinary(file.path);
+      imageUrl = uploadResult?.secure_url || null;
     }
 
     // Create post in DB

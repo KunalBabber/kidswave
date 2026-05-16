@@ -15,7 +15,8 @@ export const createShort = async (req, res) => {
     }
 
     // Upload to Cloudinary
-    const videoUpload = await uploadOnCloudinary(file.path);
+    const uploadResult = await uploadOnCloudinary(file.path);
+    const videoUpload = uploadResult?.secure_url || "";
 
     // Create short in DB
     const newShort = await Short.create({

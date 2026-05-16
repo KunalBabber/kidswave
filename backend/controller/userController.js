@@ -42,10 +42,12 @@ export const createChannel = async (req, res) => {
     let bannerImage;
 
     if (req.files?.avatar) {
-      avatar = await uploadOnCloudinary(req.files.avatar[0].path);
+      const uploadResult = await uploadOnCloudinary(req.files.avatar[0].path);
+      avatar = uploadResult?.secure_url || "";
     }
     if (req.files?.bannerImage) {
-      bannerImage = await uploadOnCloudinary(req.files.bannerImage[0].path);
+      const uploadResult = await uploadOnCloudinary(req.files.bannerImage[0].path);
+      bannerImage = uploadResult?.secure_url || "";
     }
 
     // Create channel
@@ -100,12 +102,12 @@ export const updateChannel = async (req, res) => {
 
     // Handle file uploads (avatar & bannerImage)
     if (req.files?.avatar) {
-      const avatar = await uploadOnCloudinary(req.files.avatar[0].path);
-      channel.avatar = avatar;
+      const uploadResult = await uploadOnCloudinary(req.files.avatar[0].path);
+      channel.avatar = uploadResult?.secure_url || channel.avatar;
     }
     if (req.files?.bannerImage) {
-      const bannerImage = await uploadOnCloudinary(req.files.bannerImage[0].path);
-      channel.bannerImage = bannerImage;
+      const uploadResult = await uploadOnCloudinary(req.files.bannerImage[0].path);
+      channel.bannerImage = uploadResult?.secure_url || channel.bannerImage;
     }
 
     // Save updated channel
