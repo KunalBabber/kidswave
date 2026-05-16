@@ -1,6 +1,7 @@
 import { signInWithPopup } from "firebase/auth";
-import { FaHistory, FaList, FaClock, FaThumbsUp, FaUserCircle } from "react-icons/fa";
+import { FaHistory, FaList, FaClock, FaThumbsUp, FaUserCircle, FaUserShield, FaChild } from "react-icons/fa";
 import { GoVideo } from "react-icons/go";
+import { MdSettingsSuggest } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth, provider } from "../../utils/firebase";
@@ -62,8 +63,13 @@ function MobileProfile() {
           <FaUserCircle className="text-6xl text-gray-400" />
         )}
         <div className="flex flex-col">
-          <span className="font-semibold text-lg">{userData?.username}</span>
+          <span className="font-semibold text-lg flex items-center gap-2">
+            {userData?.username}
+            {userData?.isChildProfile && <FaChild className="text-orange-400" title="Child Mode" />}
+            {userData?.role === 'Admin' && <FaUserShield className="text-red-400" title="Admin" />}
+          </span>
           <span className="text-gray-400 text-sm">{userData?.email}</span>
+          {userData?.isChildProfile && <p className="text-xs text-orange-400 font-bold mt-1">CHILD MODE ACTIVE (Age {userData.age})</p>}
             <p
   className="text-sm text-blue-400 cursor-pointer hover:underline"
   onClick={() => {
@@ -106,6 +112,8 @@ function MobileProfile() {
         <ProfileMenuItem icon={<FaList />} text="Playlists" onClick={()=>navigate("/saveplaylist")} />
         <ProfileMenuItem icon={<FaClock />} text="Save Videos" onClick={()=>navigate("/savevideos")} />
         <ProfileMenuItem icon={<FaThumbsUp />} text="Liked Videos" onClick={()=>navigate("/likedvideos")} />
+        {userData && <ProfileMenuItem icon={<MdSettingsSuggest className="text-blue-400" />} text="Parental Controls" onClick={()=>navigate("/parent-dashboard")} />}
+        {userData?.role === 'Admin' && <ProfileMenuItem icon={<FaUserShield className="text-red-400" />} text="Admin Dashboard" onClick={()=>navigate("/admin")} />}
         {userData?.channel && <ProfileMenuItem icon={<SiYoutubestudio className="w-5 h-5 text-orange-400" />} text="PT Studio" onClick={()=>navigate("/ptstudio/dashboard")} />}
       </div>
     </div>
