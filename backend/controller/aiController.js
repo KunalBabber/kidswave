@@ -47,8 +47,11 @@ The user query is: "${input}"
 - Return only the corrected word(s), comma-separated.
 - Do not explain, only return keyword(s).`;
 
-    const response = await ai.getGenerativeModel({ model: "gemini-1.5-flash" }).generateContent(prompt);
-    let keyword = (response.response.text() || input).trim().replace(/[\n\r]+/g, "");
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+    });
+    let keyword = (response.text || input).trim().replace(/[\n\r]+/g, "");
 
     // ✅ Step 2: Split keywords for OR search
     const searchWords = keyword.split(",").map((w) => w.trim()).filter(Boolean);
